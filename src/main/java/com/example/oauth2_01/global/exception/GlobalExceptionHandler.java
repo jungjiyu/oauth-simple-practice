@@ -1,5 +1,6 @@
 package com.example.oauth2_01.global.exception;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.example.oauth2_01.global.response.CustomResponseBody;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import static com.example.oauth2_01.global.exception.ExceptionType.UNAUTHORIZED_TOKEN;
 import static com.example.oauth2_01.global.response.ResponseUtil.createFailureResponse;
 
 
@@ -24,6 +26,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(exceptionType.getStatus())
                 .body(createFailureResponse(exceptionType));
     }
+
+    @ExceptionHandler(JWTVerificationException.class)
+    public ResponseEntity<CustomResponseBody<Void>> handleJwtException(JWTVerificationException e) {
+        return ResponseEntity
+                .status(UNAUTHORIZED_TOKEN.getStatus())
+                .body(createFailureResponse(ExceptionType.UNAUTHORIZED_TOKEN));
+    }
+
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<CustomResponseBody<Void>> methodArgumentNotValidException(MethodArgumentNotValidException e) {

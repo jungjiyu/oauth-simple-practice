@@ -19,6 +19,9 @@ public enum ExceptionType {
     INVALID_VALUE_ERROR(NOT_ACCEPTABLE , "C004","값이 유효하지 않음"),
     DUPLICATE_VALUE_ERROR(NOT_ACCEPTABLE , "C005","값이 중복됨"),
 
+    // jwt
+    UNAUTHORIZED_TOKEN(UNAUTHORIZED, "j001","유효하지 않은 JWT 토큰입니다"),
+
 
     // user
     USER_NOT_FOUND(NOT_FOUND, "U001", "존재하지 않는 사용자"),
