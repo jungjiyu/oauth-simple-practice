@@ -1,10 +1,12 @@
 package com.example.oauth2_01.user.entity;
 
 
+import com.example.oauth2_01.global.entity.BaseEntity;
 import com.example.oauth2_01.user.enums.Role;
 import com.example.oauth2_01.user.enums.SocialType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Setter
 @Getter
@@ -13,7 +15,7 @@ import lombok.*;
 @Builder
 @Entity
 @Table(name="Users") // H2 db 에서는 user 가 예약어임
-public class User {
+public class User extends BaseEntity {
 // 자체 로그인
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -38,6 +40,14 @@ public class User {
     private String imageUrl; // 프로필 이미지
     private int age;
 
+    // 비밀번호 암호화 메소드
+    public void passwordEncode(PasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(this.password);
+    }
+
+    public void updateRefreshToken(String updateRefreshToken) {
+        this.refreshToken = updateRefreshToken;
+    }
 
 
 }
